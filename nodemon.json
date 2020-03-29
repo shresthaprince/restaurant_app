@@ -1,0 +1,7 @@
+{
+"env": {
+    "MONGO_USER": "shresthaprince",
+    "MONGO_PASSWORD": "UdpWr8joUFHOUEGL",
+    "MONGO_DB": "restaurant-dev"
+}
+}
