@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 
 import Modal from '../components/Modal/Modal';
 import Backdrop from '../components/Backdrop/Backdrop';
+import TableList from '../components/Tables/TableList/TableList';
+import Spinner from '../components/Spinner/Spinner';
+
 import AuthContext from '../context/auth-context';
 import './Tables.css';
 
 class TablesPage extends Component {
   state = {
     creating: false,
-    tables: []
+    tables: [],
+    isLoading: false,
+    selectedTable: null
   };
 
   static contextType = AuthContext;
@@ -57,10 +62,6 @@ class TablesPage extends Component {
               minCapacity
               maxCapacity
               description
-              creator {
-                _id
-                email
-              }
             }
           }
         `
@@ -83,7 +84,20 @@ class TablesPage extends Component {
         return res.json();
       })
       .then(resData => {
-        this.fetchTables();
+        this.setState(prevState => {
+          const updatedTables = [...prevState.tables];
+          updatedTables.push({
+            _id: resData.data.createTable._id,
+            number: resData.data.createTable.number,
+            minCapacity: resData.data.createTable.minCapacity,
+            maxCapacity: resData.data.createTable.maxCapacity,
+            description: resData.data.createTable.description,
+            creator: {
+              _id: this.context.userId
+            }
+          });
+          return { tables: updatedTables };
+        });
       })
       .catch(err => {
         console.log(err);
@@ -91,10 +105,11 @@ class TablesPage extends Component {
   };
 
   modalCancelHandler = () => {
-    this.setState({ creating: false });
+    this.setState({ creating: false, selectedTable: null });
   };
 
   fetchTables() {
+    this.setState({ isLoading: true });
     const requestBody = {
       query: `
           query {
@@ -128,25 +143,32 @@ class TablesPage extends Component {
       })
       .then(resData => {
         const tables = resData.data.tables;
-        this.setState({ tables: tables });
+        this.setState({ tables: tables, isLoading: false });
       })
       .catch(err => {
         console.log(err);
+        this.setState({ isLoading: false });
       });
   }
 
-  render() {
-    const tableList = this.state.tables.map(table => {
-      return (
-        <li key={table._id} className="tables_list-item">
-          {table.number}
-        </li>
+  showDetailHandler = tableId => {
+    this.setState(prevState => {
+      const selectedTable = prevState.tables.find(
+        e => e._id === tableId
       );
-    });
+      return { selectedTable: selectedTable };
+    })
+  }
+
+  bookTableHandler = () => {
+
+  }
+
+  render() {
 
     return (
       <React.Fragment>
-        {this.state.creating && <Backdrop />}
+        {(this.state.creating || this.state.selectedTable) && <Backdrop />}
         {this.state.creating && (
           <Modal
             title="Add Table"
@@ -154,6 +176,7 @@ class TablesPage extends Component {
             canConfirm
             onCancel={this.modalCancelHandler}
             onConfirm={this.modalConfirmHandler}
+            confirmText="Confirm"
           >
             <form>
               <div className="form-content">
@@ -179,6 +202,25 @@ class TablesPage extends Component {
             </form>
           </Modal>
         )}
+
+        {this.state.selectedTable && (
+          <Modal
+            title={this.state.selectedTable.title}
+            canCancel
+            canConfirm
+            onCancel={this.modalCancelHandler}
+            onConfirm={this.bookTableHandler}
+            confirmText="Book"
+          >
+
+            <h1>Table #{this.state.selectedTable.number}</h1>
+            <h2>
+              {this.state.selectedTable.minCapacity} - {this.state.selectedTable.maxCapacity} patrons
+            </h2>
+            <p>{this.state.selectedTable.description}</p>
+          </Modal>
+        )}
+
         {this.context.token && (
           <div className="tables-content">
             <p>Share your own Tables!</p>
@@ -187,7 +229,16 @@ class TablesPage extends Component {
             </button>
           </div>
         )}
-        <ul className="tables_list">{tableList}</ul>
+
+        {this.state.isLoading ?
+          <Spinner /> :
+
+          <TableList
+            tables={this.state.tables}
+            authUserId={this.context.userId}
+            onViewDetail={this.showDetailHandler}
+          />
+        }
       </React.Fragment>
     );
   }
