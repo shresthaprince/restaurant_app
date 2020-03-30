@@ -3,15 +3,19 @@
     left: 0;
     top: 0;
     width: 100%;
+    margin: 0 auto;
     height: 3.5rem;
     background: #7b61f8;
-    padding: 0 1rem;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .main-navigation_logo h1 {
     margin: 0;
+    font-family: 'Great Vibes', cursive;
     font-size: 1.5rem;
     color: white;
 }
@@ -34,7 +38,7 @@
 
 .main-navigation_item a, .main-navigation_item button {
     text-decoration: none;
-    color: #ffffff;
+    color: white;
     padding: 0.25rem 0.5rem;
     border: none;
     font: inherit;
@@ -46,6 +50,6 @@
 
 .main-navigation_item a:hover, .main-navigation_item a:active, .main-navigation_item a.active, .main-navigation_item button:hover, .main-navigation_item button:active {
     background: #ffffff;
-    color: #7b61f8;
+    color: #5101d1;
     border-radius: 5px;
 }

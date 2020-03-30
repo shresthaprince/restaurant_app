@@ -223,7 +223,7 @@ class TablesPage extends Component {
 
         {this.context.token && (
           <div className="tables-content">
-            <p>Share your own Tables!</p>
+            <p>Add New Table</p>
             <button className="btn" onClick={this.startCreateTableHandler}>
               Create Table
             </button>
