@@ -9,7 +9,7 @@ const mainNavigation = props => (
         {(context) => {
             return (
                 <header className="main-navigation">
-                    <div className="main-navigation_logo"><h1>Not an Italian Restro</h1></div>
+                    <div className="main-navigation_logo"><h1>Prince is gay</h1></div>
                     
                     <div className="main-navigation_item">
                         <ul>
