@@ -9,8 +9,14 @@ const mainNavigation = props => (
         {(context) => {
             return (
                 <header className="main-navigation">
+<<<<<<< HEAD
                     <div className="main-navigation_logo"><h1>Prince is gay</h1></div>
                     
+=======
+                    <NavLink to="/home">
+                    <div className="main-navigation_logo"><h1>Not an Italian Restro</h1></div>
+                    </NavLink>
+>>>>>>> 57286abbf3e60f5341eef1f609fed873b43d0f36
                     <div className="main-navigation_item">
                         <ul>
                             {!context.token && <li>
