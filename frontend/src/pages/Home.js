@@ -4,10 +4,19 @@ import './Home.css';
 class HomePage extends Component {
     render() {
         return (
-        
-        <h1>Home Page</h1>
+            <React.Fragment>
+        <div className="home">
+           <h1>Sapori Unici</h1>
+        </div>
+        <div className="home2">
+           
             
+             </div>
+      
+        </React.Fragment>
+      
         )
+        
     }
 }
 

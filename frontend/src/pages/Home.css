@@ -1,0 +1,26 @@
+.home {
+  
+  text-align: center;
+  /* The image used */
+  background-image: url("./Img/wall.jpg");
+
+  /* Full height */
+  height: 150vh;
+
+  font-size: 60px;
+  padding-top: 100px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.home2 {
+  background-image: url("./Img/menu.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  height: 100vh;
+}
