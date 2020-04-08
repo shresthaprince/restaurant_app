@@ -3,7 +3,6 @@
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     position: fixed;
-    top: 20vh;
     margin: 5rem auto;
     left: 5%;
     z-index: 100;
@@ -11,8 +10,8 @@
 
 .modal-header {
     padding: 1rem;
-    background: #7b61f8;
-    color: white;
+    background: #100f14;
+    
 }
 
 .modal-header h1 {

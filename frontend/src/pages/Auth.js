@@ -82,11 +82,15 @@ class AuthPage extends Component {
                 console.log(err);
             });
     };
-    render() {
-        return <form className="auth-form" onSubmit={this.submitHandler}>
+    render() { 
+        return <div className="back" contenteditable> <form className="auth-form" onSubmit={this.submitHandler}>
+           
             <div className="form-content">
+                
                 <label for="email">E-Mail Address</label>
                 <input type="email" id="email" ref={this.emailEl} />
+               
+                
             </div>
             <div className="form-content">
                 <label for="password">Password</label>
@@ -99,7 +103,9 @@ class AuthPage extends Component {
                 </button>
 
             </div>
+        
         </form >
+        </div>
     }
 }
 
