@@ -54,6 +54,6 @@
 
 .main-navigation_item a:hover, .main-navigation_item a:active, .main-navigation_item a.active, .main-navigation_item button:hover, .main-navigation_item button:active {
     background: #ffffff;
-    color: #5101d1;
+    color: tomato;
     border-radius: 5px;
 }

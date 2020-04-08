@@ -33,5 +33,6 @@
     .modal {
         width: 30rem;
         left: calc((100% - 30rem) / 2);
+       
     }
 }
