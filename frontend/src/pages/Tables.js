@@ -233,7 +233,8 @@ class TablesPage extends Component {
         {this.state.isLoading ?
           <Spinner /> :
 
-          <TableList
+          <TableList className="bord"
+        
             tables={this.state.tables}
             authUserId={this.context.userId}
             onViewDetail={this.showDetailHandler}
