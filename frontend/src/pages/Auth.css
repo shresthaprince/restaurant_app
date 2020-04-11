@@ -1,5 +1,18 @@
 .auth-form {
     width: 40rem;
     max-width: 80%;
-    margin: 5rem auto;
+    padding-top: 10vh;
+    margin: auto;
+    
+   
+    
 }
+.back{
+    
+    height:100vh;
+    background:url('./Img/wall2.jpg');
+    background-size:cover;
+    
+    
+}
+

@@ -1,34 +1,79 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Baloo Thambi 2', cursive;;
+  font-family: 'Baloo Thambi 2', cursive;
+  border-color: black;
+  background-color: rgb(145, 210, 226);
 }
 
 
 .form-content label,
 .form-content input,
 .form-content textarea {
+   
+
+    width: 100%;
+    display: block;
+    
+}
+.form-content2 label,
+.form-content2 input,
+.form-content2 textarea {
+   
+
     width: 100%;
     display: block;
 }
 
 .form-content label {
+    font-family: Impact, Charcoal, sans-serif;
+    color:whitesmoke;
+   font-size: 18px;
     margin-bottom: 0.5rem;
+   
+}
+.form-content2 label {
+    font-family: Impact, Charcoal, sans-serif;
+    color:whitesmoke;
+   font-size: 18px;
+    margin-bottom: 0.5rem;
+   
 }
 
 .form-content {
+    
+    background-color: teal;
+    margin-bottom: 1rem;
+}
+.form-content2 {
+    
+    
     margin-bottom: 1rem;
 }
 
 .form-actions button,
 .btn {
-background: #7b61f8;
+
+background: #060607;
 font: inherit;
-border: 1px solid #4623f5;
+border: 1px solid #060607;
 border-radius: 3px;
 padding: 0.5rem 1rem;
 margin-right: 1rem;
-box-shadow: 1px 1px 5px #ffffff;
+
+color: #ffffff;
+cursor: pointer;
+}
+.form-actions button,
+.btn {
+
+background: #060607;
+font: inherit;
+border: 1px solid #060607;
+border-radius: 3px;
+padding: 0.5rem 1rem;
+margin-right: 1rem;
+
 color: #ffffff;
 cursor: pointer;
 }
@@ -37,6 +82,6 @@ cursor: pointer;
 .form-actions button:active,
 .btn:hover,
 .btn:active {
-    background: #b9abff;
-    border-color: #7b61f8;
+    background:tomato;
+    border-color: #060607;
 }
