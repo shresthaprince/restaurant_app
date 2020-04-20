@@ -16,6 +16,8 @@ class TablesPage extends Component {
     selectedTable: null
   };
 
+  isActive = true;
+
   static contextType = AuthContext;
 
   constructor(props) {
@@ -55,8 +57,8 @@ class TablesPage extends Component {
 
     const requestBody = {
       query: `
-          mutation {
-            createTable(tableInput: {number: ${number}, minCapacity: ${minCapacity}, maxCapacity: ${maxCapacity}, description: "${description}" }) {
+          mutation CreateTable($number: Int!, $minCap: Int!, $maxCap: Int!, $desc: String!) {
+            createTable(tableInput: {number: $number, minCapacity: $minCap, maxCapacity: $maxCap, description: $desc }) {
               _id
               number
               minCapacity
@@ -64,7 +66,13 @@ class TablesPage extends Component {
               description
             }
           }
-        `
+        `,
+        variables: {
+          number: number,
+          minCap: minCapacity,
+          maxCap: maxCapacity,
+desc: description
+        }
     };
 
     const token = this.context.token;
@@ -143,11 +151,15 @@ class TablesPage extends Component {
       })
       .then(resData => {
         const tables = resData.data.tables;
-        this.setState({ tables: tables, isLoading: false });
+        if (this.isActive) {
+          this.setState({ tables: tables, isLoading: false });
+        }
       })
       .catch(err => {
         console.log(err);
-        this.setState({ isLoading: false });
+        if (this.isActive) {
+          this.setState({ isLoading: false });
+        }
       });
   }
 
@@ -162,6 +174,60 @@ class TablesPage extends Component {
 
   bookTableHandler = () => {
 
+    if (!this.context.token) {
+      this.setState({ selectedTable: null });
+      return;
+    }
+
+    const requestBody = {
+      query: `
+          mutation BookTable($id: ID!) {
+            bookTable(tableId: $id) {
+              _id
+              createdAt
+              updatedAt
+              }
+            }
+          
+        `,
+        variables: {
+          id: this.state.selectedTable._id
+        }
+    };
+
+    fetch('http://localhost:8000/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.context.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  showDetailHandler = tableId => {
+    this.setState(prevState => {
+      const selectedTable = prevState.tables.find(
+        e => e._id === tableId
+      );
+      return { selectedTable: selectedTable };
+    })
+  }
+
+  componentWillUnmount() {
+    this.isActive = false;
   }
 
   render() {
@@ -210,7 +276,7 @@ class TablesPage extends Component {
             canConfirm
             onCancel={this.modalCancelHandler}
             onConfirm={this.bookTableHandler}
-            confirmText="Book"
+            confirmText={this.context.token ? 'Book' : 'Confirm'}
           >
 
             <h1>Table #{this.state.selectedTable.number}</h1>
@@ -234,7 +300,7 @@ class TablesPage extends Component {
           <Spinner /> :
 
           <TableList className="bord"
-        
+
             tables={this.state.tables}
             authUserId={this.context.userId}
             onViewDetail={this.showDetailHandler}

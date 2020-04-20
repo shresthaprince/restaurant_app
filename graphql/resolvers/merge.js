@@ -1,10 +1,23 @@
+const DataLoader = require('dataloader');
+
 const Table = require('../../models/table');
 const User = require('../../models/users');
 const { dateToString } = require('../../helpers/date')
 
+const tableLoader = new DataLoader((tableIds) => {
+    return tables(tableIds);
+});
+
+const userLoader = new DataLoader(userIds => {
+    return User.find({ _id: { $in: userIds } });
+});
+
 const tables = async tableIds => {
     try {
         const tables = await Table.find({ _id: { $in: tableIds } });
+        tables.sort((a, b) => {
+            return tableIds.indexOf(a._id.toString()) - tableIds.indexOf(b._id.toString());
+        });
         return tables.map(table => {
             return transformTable(table);
         });
@@ -16,8 +29,8 @@ const tables = async tableIds => {
 
 const singleTable = async tableId => {
     try {
-        const table = await Table.findById(tableId);
-        return transformTable(table);
+        const table = await tableLoader.load(tableId.toString());
+        return table;
     } catch (err) {
         throw err;
 
@@ -28,11 +41,11 @@ const singleTable = async tableId => {
 
 const user = async userId => {
     try {
-        const user = await User.findById(userId)
+        const user = await userLoader.load(userId.toString())
         return {
             ...user._doc,
             _id: user.id,
-            createdTables: tables.bind(this, user._doc.createdTables)
+            createdTables: () => tableLoader.loadMany(user._doc.createdTables)
         };
 
     } catch (err) {
